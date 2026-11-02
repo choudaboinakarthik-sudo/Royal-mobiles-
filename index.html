@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Royal Mobiles — Demo Store</title>
+<style>
+:root {
+  --site-primary: #172554;
+  --site-on-primary: #ffffff;
+  --site-secondary: #d6a84f;
+  --site-on-secondary: #1b1b1b;
+  --site-background: #f5f6f8;
+  --site-on-background: #172033;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  --surface: #ffffff;
+  --muted: #667085;
+  --line: #e7e9ee;
+  --green: #16845b;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+#app { min-height: 100vh; width: 100%; background-color: var(--site-background); color: var(--site-on-background); }
+.topbar { background: var(--site-primary); color: var(--site-on-primary); padding: 10px 5vw; display:flex; justify-content:space-between; align-items:center; gap:12px; font-size:12px; }
+.topbar span { opacity:.9; }
+.topbar strong { color:#f3d38c; letter-spacing:.04em; }
+header { background:var(--surface); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:5; }
+.nav { max-width:1160px; margin:auto; padding:17px 24px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+.brand { display:flex; align-items:center; gap:11px; min-width:max-content; }
+.brandmark { width:42px; height:42px; border-radius:14px; display:grid; place-items:center; background:var(--site-primary); color:#f1cc7e; font-size:22px; font-weight:900; }
+.brandname { font-family:var(--site-font-heading); font-weight:850; letter-spacing:.045em; font-size:18px; line-height:1.1; }
+.brandname small { display:block; color:var(--muted); font-size:9px; letter-spacing:.22em; margin-top:4px; font-weight:700; }
+.navlinks { display:flex; align-items:center; gap:24px; color:#344054; font-size:13px; font-weight:650; }
+.navlinks a { text-decoration:none; color:inherit; }
+.navactions { display:flex; gap:9px; align-items:center; }
+.btn { border:0; border-radius:calc(11px * var(--site-radius-scale)); padding:11px 16px; font-weight:750; font-size:12px; transition:.18s; }
+.btn:hover { transform:translateY(-1px); }
+.btn-primary { background:var(--site-primary); color:white; }
+.btn-gold { background:var(--site-secondary); color:var(--site-on-secondary); }
+.btn-outline { border:1px solid var(--line); background:var(--surface); color:#25314a; }
+.hero { background:linear-gradient(115deg,#101d43 0%,#172d5b 58%,#263d69 100%); color:white; overflow:hidden; position:relative; }
+.hero:after { content:""; position:absolute; width:470px; height:470px; border:1px solid #ffffff20; border-radius:50%; right:-90px; top:-180px; box-shadow:0 0 0 45px #ffffff08,0 0 0 95px #ffffff06; opacity:var(--site-decoration-opacity); pointer-events:none; }
+.hero-inner { max-width:1160px; margin:auto; padding:72px 24px 76px; display:grid; grid-template-columns:1.12fr .88fr; gap:40px; align-items:center; position:relative; z-index:1; }
+.eyebrow { color:#f1cc7e; text-transform:uppercase; letter-spacing:.2em; font-size:10px; font-weight:850; }
+h1 { font-family:var(--site-font-heading); font-size:clamp(38px,5.5vw,64px); line-height:1.03; letter-spacing:-.045em; margin:17px 0 18px; max-width:620px; }
+.hero p { color:#d6ddec; line-height:1.75; font-size:14px; max-width:510px; margin:0 0 27px; }
+.hero-actions { display:flex; gap:11px; flex-wrap:wrap; }
+.hero-note { margin-top:24px; color:#c3cee0; font-size:11px; display:flex; gap:20px; flex-wrap:wrap; }
+.hero-note b { color:white; }
+.hero-art { min-height:300px; display:grid; place-items:center; position:relative; }
+.phone-stack { width:min(100%,390px); height:300px; position:relative; }
+.phone { position:absolute; width:142px; height:270px; border:5px solid #1a1c25; border-radius:28px; background:linear-gradient(145deg,#e5e9f1,#9eacc4); box-shadow:0 24px 45px #0005; padding:9px; }
+.phone:before { content:""; position:absolute; width:44px; height:13px; border-radius:10px; background:#151820; top:5px; left:calc(50% - 22px); z-index:2; }
+.phone-screen { width:100%; height:100%; border-radius:18px; overflow:hidden; background:linear-gradient(145deg,#253b72,#70a4bb 55%,#d4c7a1); display:flex; flex-direction:column; align-items:center; justify-content:center; color:white; text-align:center; }
+.phone-screen span { font-size:10px; letter-spacing:.15em; opacity:.8; }
+.phone-screen b { font-size:25px; margin-top:8px; }
+.phone.one { left:22px; top:22px; transform:rotate(-12deg); }
+.phone.two { left:126px; top:5px; z-index:2; transform:rotate(2deg); background:#171923; }
+.phone.two .phone-screen { background:linear-gradient(155deg,#121b33,#694e88 52%,#e7a76f); }
+.phone.three { right:0; top:28px; transform:rotate(12deg); }
+.hero-tag { position:absolute; z-index:3; bottom:4px; right:5px; background:white; color:#18284c; padding:12px 16px; border-radius:14px; box-shadow:0 12px 30px #0003; font-size:11px; font-weight:800; }
+.trust { background:white; border-bottom:1px solid var(--line); }
+.trust-inner { max-width:1160px; margin:auto; padding:17px 24px; display:flex; justify-content:space-between; gap:15px; flex-wrap:wrap; color:#586174; font-size:11px; font-weight:700; }
+.trust span { display:flex; align-items:center; gap:8px; }
+main { max-width:1160px; margin:auto; padding:58px 24px 76px; }
+.section-head { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-bottom:23px; }
+.section-head h2 { font-size:clamp(25px,3vw,34px); margin:7px 0 0; letter-spacing:-.035em; }
+.section-head p { color:var(--muted); font-size:12px; margin:8px 0 0; }
+.kicker { color:#a8792d; font-weight:850; letter-spacing:.17em; text-transform:uppercase; font-size:9px; }
+.filters { display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-bottom:20px; }
+.filter { padding:9px 14px; border:1px solid var(--line); background:white; border-radius:30px; color:#596276; font-size:11px; font-weight:750; }
+.filter.active { background:var(--site-primary); color:white; border-color:var(--site-primary); }
+.search { margin-left:auto; border:1px solid var(--line); border-radius:10px; background:white; padding:10px 13px; width:210px; font-size:11px; outline:none; }
+.grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+.product { background:white; border:1px solid var(--line); border-radius:16px; overflow:hidden; transition:.2s; }
+.product:hover { transform:translateY(-3px); box-shadow:0 14px 28px #17255412; }
+.product-visual { height:170px; display:grid; place-items:center; position:relative; background:linear-gradient(145deg,#f0f2f6,#e5e9f0); }
+.product-visual .device { width:75px; height:135px; border:4px solid #202633; border-radius:17px; background:linear-gradient(145deg,#536b98,#111d37 60%,#b2c0d7); box-shadow:0 12px 18px #202b4225; position:relative; }
+.device:before { content:""; position:absolute; top:5px; left:calc(50% - 15px); width:30px; height:7px; border-radius:8px; background:#101521; }
+.device:after { content:""; position:absolute; width:18px; height:18px; border-radius:50%; background:#1c273d; border:2px solid #8293b0; top:13px; left:8px; box-shadow:22px 0 0 -2px #27344c,0 22px 0 -2px #27344c; }
+.product:nth-child(3n) .device { background:linear-gradient(145deg,#e4c4a5,#765b55 65%,#20212b); }
+.product:nth-child(4n) .device { background:linear-gradient(145deg,#c4d4d8,#526d80 65%,#17253c); }
+.product:nth-child(2n) .device { width:83px; height:125px; border-radius:13px; }
+.product-label { position:absolute; top:12px; left:12px; padding:6px 8px; background:#fff; border-radius:7px; font-size:9px; font-weight:850; color:#35415a; }
+.product-info { padding:15px; }
+.product-category { color:#9a762f; font-size:9px; font-weight:850; text-transform:uppercase; letter-spacing:.12em; }
+.product h3 { margin:7px 0 5px; font-size:14px; }
+.spec { color:var(--muted); font-size:10px; }
+.price-row { display:flex; align-items:center; justify-content:space-between; margin-top:14px; gap:8px; }
+.price { font-weight:900; font-size:17px; color:#172554; }
+.enquire { border:0; background:#f0f2f7; color:#263b67; border-radius:8px; padding:8px 10px; font-size:10px; font-weight:800; }
+.empty { display:none; grid-column:1/-1; padding:40px; text-align:center; color:var(--muted); background:white; border:1px dashed var(--line); border-radius:14px; }
+.promo { margin-top:54px; background:#f0e8d8; border-radius:20px; padding:30px 34px; display:flex; justify-content:space-between; align-items:center; gap:20px; }
+.promo h2 { margin:6px 0 7px; font-size:25px; letter-spacing:-.03em; }
+.promo p { margin:0; color:#6b6254; font-size:12px; }
+footer { background:#111d3c; color:white; }
+.footer-inner { max-width:1160px; margin:auto; padding:35px 24px; display:flex; justify-content:space-between; gap:25px; flex-wrap:wrap; align-items:center; }
+.footer-inner p { color:#c0c9d8; font-size:11px; margin:7px 0 0; }
+.footer-links { display:flex; gap:18px; flex-wrap:wrap; color:#dce3ed; font-size:11px; }
+.demo-note { text-align:center; background:#fff8e8; color:#80612c; padding:9px 14px; font-size:10px; font-weight:700; }
+.admin-view { display:none; min-height:75vh; background:#f4f6fa; padding:30px 24px 70px; }
+.admin-wrap { max-width:1080px; margin:auto; }
+.admin-top { display:flex; justify-content:space-between; align-items:center; gap:15px; flex-wrap:wrap; margin-bottom:24px; }
+.admin-top h2 { margin:0; font-size:26px; }
+.admin-top p { color:var(--muted); font-size:12px; margin:6px 0 0; }
+.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:22px; }
+.stat { background:white; border:1px solid var(--line); border-radius:14px; padding:18px; }
+.stat span { color:var(--muted); font-size:11px; }
+.stat b { display:block; margin-top:8px; font-size:25px; }
+.panel { background:white; border:1px solid var(--line); border-radius:15px; padding:20px; }
+.panel-head { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:15px; }
+.panel-head h3 { margin:0; font-size:16px; }
+.admin-list { width:100%; border-collapse:collapse; font-size:12px; }
+.admin-list th,.admin-list td { text-align:left; padding:13px 10px; border-bottom:1px solid var(--line); }
+.admin-list th { color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:.08em; }
+.small-btn { border:1px solid var(--line); background:white; border-radius:7px; padding:6px 9px; font-size:10px; font-weight:750; margin-right:4px; }
+.small-btn.delete { color:#b42318; }
+.modal-backdrop { display:none; position:fixed; inset:0; background:#0d1734a8; z-index:20; padding:20px; align-items:center; justify-content:center; }
+.modal { width:min(100%,420px); background:white; border-radius:17px; padding:23px; box-shadow:0 25px 70px #0003; }
+.modal h3 { margin:0 0 17px; }
+.field { display:block; margin:12px 0; }
+.field span { display:block; color:#596276; font-size:10px; font-weight:800; margin-bottom:6px; }
+.field input,.field select { width:100%; border:1px solid var(--line); border-radius:9px; padding:11px; outline:none; font-size:12px; background:white; }
+.modal-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:18px; }
+.login-card { width:min(100%,390px); background:white; border:1px solid var(--line); border-radius:18px; padding:25px; box-shadow:0 25px 70px #0003; }
+.login-card h2 { margin:0 0 7px; color:#172554; }
+.login-card p { color:var(--muted); font-size:12px; line-height:1.6; }
+.login-card input { width:100%; border:1px solid var(--line); border-radius:9px; padding:12px; margin:6px 0 12px; }
+.login-error { color:#b42318; font-size:11px; min-height:16px; }
+@media(max-width:850px){.navlinks{display:none}.hero-inner{grid-template-columns:1fr;padding-top:54px}.hero-art{min-height:280px}.grid{grid-template-columns:repeat(2,1fr)}.trust-inner{justify-content:center}.search{margin-left:0;flex:1;min-width:150px}}
+@media(max-width:520px){.topbar{padding:9px 16px}.nav{padding:13px 16px}.navactions .btn{padding:9px 11px;font-size:10px}.brandname{font-size:15px}.hero-inner{padding:48px 20px 55px;gap:16px}h1{font-size:43px}.hero-art{transform:scale(.88);transform-origin:top center;margin-bottom:-28px}.trust-inner{padding:14px 16px;gap:12px;font-size:9px}main{padding:43px 16px 55px}.section-head{align-items:start;flex-direction:column}.grid{gap:10px}.product-visual{height:145px}.product-info{padding:12px}.product h3{font-size:12px}.price{font-size:15px}.promo{padding:23px;align-items:flex-start;flex-direction:column}.stats{grid-template-columns:1fr}.admin-view{padding:24px 14px}.panel{overflow-x:auto;padding:13px}.admin-list{min-width:550px}.footer-inner{padding:28px 18px}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="topbar"><span>Welcome to <strong>ROYAL MOBILES</strong></span><span>Demo store · Sample products & prices</span></div>
+  <header><div class="nav">
+    <div class="brand"><div class="brandmark">R</div><div class="brandname">ROYAL MOBILES<small>YOUR SMART CHOICE</small></div></div>
+    <nav class="navlinks"><a href="#home">Home</a><a href="#products">Mobiles</a><a href="#offers">Offers</a><a href="#contact">Contact</a></nav>
+    <div class="navactions"><button class="btn btn-outline" id="homeBtn" onclick="showStore()">View Store</button><button class="btn btn-primary" onclick="showAdmin()">Admin Demo ↗</button></div>
+  </div></header>
+  <section id="storeView">
+    <section class="hero" id="home"><div class="hero-inner">
+      <div><div class="eyebrow">Technology · Trust · Value</div><h1>Find your next <span style="color:#f1cc7e">smartphone.</span></h1><p>Explore popular smartphones and everyday mobile essentials at Royal Mobiles. Browse the sample catalogue and send us an enquiry.</p><div class="hero-actions"><a href="#products"><button class="btn btn-gold">Explore mobiles&nbsp; →</button></a><button class="btn btn-outline" style="background:#ffffff18;border-color:#ffffff50;color:white" onclick="contactShop()">Contact the shop</button></div><div class="hero-note"><span>✦ <b>Latest models</b></span><span>✦ <b>Accessories</b></span><span>✦ <b>Friendly service</b></span></div></div>
+      <div class="hero-art"><div class="phone-stack"><div class="phone one"><div class="phone-screen"><span>ROYAL</span><b>5G</b></div></div><div class="phone two"><div class="phone-screen"><span>ROYAL</span><b>PRO</b></div></div><div class="phone three"><div class="phone-screen"><span>ROYAL</span><b>MAX</b></div></div><div class="hero-tag">Upgrade your everyday.</div></div></div>
+    </div></section>
+    <div class="trust"><div class="trust-inner"><span>✓ Popular smartphone brands</span><span>✓ Helpful product guidance</span><span>✓ Easy WhatsApp enquiries</span><span>✓ Accessories for everyday use</span></div></div>
+    <main id="products">
+      <div class="section-head"><div><div class="kicker">Shop the collection</div><h2>Featured products</h2><p>Browse a few items from our sample catalogue.</p></div><button class="btn btn-outline" onclick="showAdmin()">Manage products ↗</button></div>
+      <div class="filters"><button class="filter active" data-filter="All" onclick="setFilter('All',this)">All products</button><button class="filter" data-filter="Smartphones" onclick="setFilter('Smartphones',this)">Smartphones</button><button class="filter" data-filter="Accessories" onclick="setFilter('Accessories',this)">Accessories</button><input class="search" id="search" placeholder="Search products..." oninput="renderProducts()"></div>
+      <div class="grid" id="productGrid"></div><div class="empty" id="empty">No matching products found.</div>
+      <section class="promo" id="offers"><div><div class="kicker">A little something extra</div><h2>Looking for a great deal?</h2><p>Ask our team about current availability and shop offers.</p></div><button class="btn btn-primary" onclick="contactShop()">Enquire on WhatsApp →</button></section>
+    </main>
+  </section>
+  <section class="admin-view" id="adminView"><div class="admin-wrap">
+    <div class="admin-top"><div><div class="kicker">Store management · Demo mode</div><h2>Admin Dashboard</h2><p>Manage the sample products shown on the customer website.</p></div><div style="display:flex;gap:9px;flex-wrap:wrap"><button class="btn btn-outline" onclick="showStore()">← Back to store</button><button class="btn btn-primary" onclick="openAdd()">＋ Add product</button></div></div>
+    <div class="stats"><div class="stat"><span>Total products</span><b id="totalStat">4</b></div><div class="stat"><span>Smartphones</span><b id="phoneStat">3</b></div><div class="stat"><span>Accessories</span><b id="accessoryStat">1</b></div></div>
+    <div class="panel"><div class="panel-head"><h3>Product catalogue</h3><span style="font-size:10px;color:#667085">Changes appear in the demo store</span></div><table class="admin-list"><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Actions</th></tr></thead><tbody id="adminRows"></tbody></table></div>
+    <p style="color:#7b8495;font-size:10px;line-height:1.6;margin:14px 2px">Demo only: changes are kept temporarily in this page session. A live store needs secure owner authentication, database storage and hosting.</p>
+  </div></section>
+  <footer id="contact"><div class="footer-inner"><div><div class="brandname" style="color:white">ROYAL MOBILES<small style="color:#c5cddd">YOUR SMART CHOICE</small></div><p>Your neighbourhood destination for mobiles and accessories.</p></div><div class="footer-links"><span>Mobiles</span><span>Accessories</span><span>Offers</span><span>Contact</span></div><div style="font-size:10px;color:#c5cddd">© 2026 Royal Mobiles · Demo website</div></div></footer>
+  <div class="demo-note">DEMO WEBSITE — Product names, prices and shop details are illustrative. Replace with verified shop information before launch.</div>
+</div>
+<div class="modal-backdrop" id="modalBackdrop" onclick="if(event.target===this)closeModal()"><div class="modal"><h3 id="modalTitle">Add product</h3><label class="field"><span>Product name</span><input id="pName" placeholder="e.g. Smartphone X"></label><label class="field"><span>Category</span><select id="pCategory"><option>Smartphones</option><option>Accessories</option></select></label><label class="field"><span>Price (₹)</span><input id="pPrice" type="number" min="0" placeholder="e.g. 15999"></label><label class="field"><span>Short details</span><input id="pDetails" placeholder="e.g. 8GB RAM · 128GB"></label><div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveProduct()">Save product</button></div></div></div>
+<div class="modal-backdrop" id="loginBackdrop"><div class="login-card"><div class="brand"><div class="brandmark">R</div><div class="brandname">ROYAL MOBILES<small>OWNER LOGIN · DEMO</small></div></div><h2 style="margin-top:22px">Admin Login</h2><p>Sign in to manage the sample products in this demo.</p><label class="field"><span>Username</span><input id="adminUsername" autocomplete="username" placeholder="Enter username"></label><label class="field"><span>Password</span><input id="adminPassword" type="password" autocomplete="current-password" placeholder="Enter password" onkeydown="if(event.key==='Enter')loginAdmin()"></label><div class="login-error" id="loginError"></div><div class="modal-actions"><button class="btn btn-outline" onclick="closeLogin()">Cancel</button><button class="btn btn-primary" onclick="loginAdmin()">Login</button></div><p style="background:#fff8e8;padding:10px;border-radius:8px;margin-bottom:0"><b>Demo credentials</b><br>Username: royaladmin<br>Password: Royal@123</p></div></div>
+<script>
+let products = [
+ {id:1,name:'Samsung Galaxy A Series',category:'Smartphones',price:18999,details:'8GB RAM · 128GB storage',label:'POPULAR'},
+ {id:2,name:'iPhone 13',category:'Smartphones',price:39999,details:'128GB · Great everyday performance',label:'FEATURED'},
+ {id:3,name:'OnePlus Nord Series',category:'Smartphones',price:24999,details:'8GB RAM · 5G ready',label:'5G'},
+ {id:4,name:'Wireless Earbuds',category:'Accessories',price:1499,details:'Compact case · Clear sound',label:'ACCESSORY'}
+];
+let currentFilter='All', editingId=null, adminLoggedIn=false;
+const money=n=>'₹'+Number(n).toLocaleString('en-IN');
+function renderProducts(){const q=document.getElementById('search').value.toLowerCase();const list=products.filter(p=>(currentFilter==='All'||p.category===currentFilter)&&(p.name+' '+p.details).toLowerCase().includes(q));const grid=document.getElementById('productGrid');grid.innerHTML=list.map(p=>`<article class="product"><div class="product-visual"><span class="product-label">${p.label||'IN STORE'}</span><div class="device" aria-hidden="true"></div></div><div class="product-info"><div class="product-category">${p.category}</div><h3>${escapeHtml(p.name)}</h3><div class="spec">${escapeHtml(p.details||'Ask for product details')}</div><div class="price-row"><div class="price">${money(p.price)}</div><button class="enquire" onclick="contactProduct('${encodeURIComponent(p.name)}')">Enquire</button></div></div></article>`).join('');document.getElementById('empty').style.display=list.length?'none':'block';}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function setFilter(f,el){currentFilter=f;document.querySelectorAll('.filter').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderProducts();}
+function showAdmin(){if(!adminLoggedIn){document.getElementById('loginBackdrop').style.display='flex';document.getElementById('adminUsername').focus();return;}document.getElementById('storeView').style.display='none';document.getElementById('adminView').style.display='block';renderAdmin();window.scrollTo(0,0);}
+function loginAdmin(){const user=document.getElementById('adminUsername').value.trim(),pass=document.getElementById('adminPassword').value;if(user==='royaladmin'&&pass==='Royal@123'){adminLoggedIn=true;closeLogin();document.getElementById('loginError').textContent='';showAdmin();}else{document.getElementById('loginError').textContent='Incorrect username or password. Please try again.';}}
+function closeLogin(){document.getElementById('loginBackdrop').style.display='none';}
+function showStore(){document.getElementById('adminView').style.display='none';document.getElementById('storeView').style.display='block';window.scrollTo(0,0);renderProducts();}
+function renderAdmin(){document.getElementById('totalStat').textContent=products.length;document.getElementById('phoneStat').textContent=products.filter(p=>p.category==='Smartphones').length;document.getElementById('accessoryStat').textContent=products.filter(p=>p.category==='Accessories').length;document.getElementById('adminRows').innerHTML=products.map(p=>`<tr><td><b>${escapeHtml(p.name)}</b><br><span style="color:#8992a3;font-size:10px">${escapeHtml(p.details||'')}</span></td><td>${p.category}</td><td><b>${money(p.price)}</b></td><td><button class="small-btn" onclick="openEdit(${p.id})">Edit</button><button class="small-btn delete" onclick="deleteProduct(${p.id})">Delete</button></td></tr>`).join('');}
+function openAdd(){editingId=null;document.getElementById('modalTitle').textContent='Add product';document.getElementById('pName').value='';document.getElementById('pCategory').value='Smartphones';document.getElementById('pPrice').value='';document.getElementById('pDetails').value='';document.getElementById('modalBackdrop').style.display='flex';}
+function openEdit(id){const p=products.find(x=>x.id===id);if(!p)return;editingId=id;document.getElementById('modalTitle').textContent='Edit product';document.getElementById('pName').value=p.name;document.getElementById('pCategory').value=p.category;document.getElementById('pPrice').value=p.price;document.getElementById('pDetails').value=p.details;document.getElementById('modalBackdrop').style.display='flex';}
+function closeModal(){document.getElementById('modalBackdrop').style.display='none';}
+function saveProduct(){const name=document.getElementById('pName').value.trim(),price=Number(document.getElementById('pPrice').value);if(!name||!Number.isFinite(price)||price<0){alert('Please enter a product name and a valid price.');return;}const item={id:editingId||Date.now(),name,category:document.getElementById('pCategory').value,price,details:document.getElementById('pDetails').value.trim(),label:'IN STORE'};if(editingId){products=products.map(p=>p.id===editingId?item:p);}else{products.push(item);}closeModal();renderAdmin();renderProducts();}
+function deleteProduct(id){if(confirm('Delete this sample product?')){products=products.filter(p=>p.id!==id);renderAdmin();renderProducts();}}
+function contactShop(){alert('Demo contact: Add the shop WhatsApp number here before publishing.');}
+function contactProduct(name){alert('Demo enquiry for '+decodeURIComponent(name)+'. Add the shop WhatsApp number before publishing.');}
+renderProducts();
+</script>
+</body>
+</html>
